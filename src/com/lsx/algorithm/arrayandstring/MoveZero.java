@@ -14,9 +14,24 @@ public class MoveZero {
 
     // 保证相对顺序
     public void moveZeroes(int[] nums) {
+        if(nums == null || nums.length ==0){
+            return;
+        }
+        // 双指针
+        int i=0; // i快指针
+        int j=0; // j慢指针
+        int len = nums.length;
 
-    }
-
+        for (;i<len;i++){
+            // 快指针不为0，跟慢指针交换元素，慢指针才向前
+            if (nums[i]!=0){
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                j++;
+            }
+        }
+     }
 
 
     //这个方法保证非零元素的绝对顺序

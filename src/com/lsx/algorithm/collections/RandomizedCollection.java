@@ -1,6 +1,8 @@
 package com.lsx.algorithm.collections;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 设计一个支持在平均 时间复杂度 O(1) 下， 执行以下操作的数据结构。
@@ -101,4 +103,5 @@ public class RandomizedCollection {
         //随机获取一个索引值
         return nums.get((int) (Math.random() * nums.size()));
     }
+    
 }

@@ -28,9 +28,10 @@ public class Stone1 {
     /**
      * 定义一个类，来存放dp数组的结果，fir 表示先手拿到的石子，sec 表示后手拿到的石子
      */
-    class Pair{
+    class Pair {
         int fir;
         int sec;
+
         public Pair(int fir, int sec) {
             this.fir = fir;
             this.sec = sec;
@@ -39,29 +40,29 @@ public class Stone1 {
 
     /**
      * 定义 dp 数组：
-     *      dp[i][j].fir 表⽰，对于 piles[i...j] 这部分⽯头堆，先⼿能获得的最⾼分数。
-     *      dp[i][j].sec 表⽰，对于 piles[i...j] 这部分⽯头堆，后⼿能获得的最⾼分数。
-     *
+     * dp[i][j].fir 表⽰，对于 piles[i...j] 这部分⽯头堆，先⼿能获得的最⾼分数。
+     * dp[i][j].sec 表⽰，对于 piles[i...j] 这部分⽯头堆，后⼿能获得的最⾼分数。
+     * <p>
      * 明确【状态】：开始的索引 i，结束的索引 j，当前轮到的人。
-     *      dp[i][j][fir or sec]
-     *
+     * dp[i][j][fir or sec]
+     * <p>
      * 【选择】：当前先手选择后，变成下一步的后手，当前后手变成下一步的先手。
-     *      dp[i][j].fir = max(piles[i] + dp[i+1][j].sec, piles[j] + dp[i][j-1].sec)
-     *      dp[i][j].fir = max( 选择最左边的⽯头堆 , 选择最右边的⽯头堆 )
-     *
-     *      if 先手选择左边:
-     * 	        dp[i][j].sec = dp[i+1][j].fir
-     *      if 先手选择右边:
-     * 	        dp[i][j].sec = dp[i][j-1].fir
-     *
+     * dp[i][j].fir = max(piles[i] + dp[i+1][j].sec, piles[j] + dp[i][j-1].sec)
+     * dp[i][j].fir = max( 选择最左边的⽯头堆 , 选择最右边的⽯头堆 )
+     * <p>
+     * if 先手选择左边:
+     * dp[i][j].sec = dp[i+1][j].fir
+     * if 先手选择右边:
+     * dp[i][j].sec = dp[i][j-1].fir
+     * <p>
      * 初始化base case：
-     *      当 i == j
-     *      dp[i][j].fir = piles[i]
-     *      dp[i][j].sec = 0
-     *     其他都初始化为0
-     *
+     * 当 i == j
+     * dp[i][j].fir = piles[i]
+     * dp[i][j].sec = 0
+     * 其他都初始化为0
+     * <p>
      * 要求的目标：dp[0][n-1].fir - dp[0][n-1].sec
-     *
+     * <p>
      * 所以需要斜向遍历。
      */
     public boolean stoneGame(int[] piles) {
@@ -69,37 +70,37 @@ public class Stone1 {
         // 定义dp
         Pair[][] dp = new Pair[n][n];
         // 初始化base case
-        for (int i=0;i<n;i++){
-            for (int j=0;j<n;j++){
-                dp[i][j] = new Pair(0,0);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = new Pair(0, 0);
             }
         }
-        for (int i=0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             // 只有一堆石子，都被先手拿了
             dp[i][i].fir = piles[i];
             dp[i][i].sec = 0;
         }
         // 斜向遍历
-        for (int l=1;l<n;l++){
-            for (int i=0;i<n-l;i++){
-                int j = i+l;
+        for (int l = 1; l < n; l++) {
+            for (int i = 0; i < n - l; i++) {
+                int j = i + l;
 
                 // 先手拿最左边 还是 最右边的石子 的结果
-                int left = piles[i]+ dp[i+1][j].sec;
-                int right = piles[j]+dp[i][j-1].sec;
+                int left = piles[i] + dp[i + 1][j].sec;
+                int right = piles[j] + dp[i][j - 1].sec;
 
                 // 取最大，当前步后手变成下一步的先手
-                if (left> right){
+                if (left > right) {
                     // 拿左边
                     dp[i][j].fir = left;
-                    dp[i][j].sec = dp[i+1][j].fir;
-                }else{
+                    dp[i][j].sec = dp[i + 1][j].fir;
+                } else {
                     // 拿右边
                     dp[i][j].fir = right;
-                    dp[i][j].sec = dp[i][j-1].fir;
+                    dp[i][j].sec = dp[i][j - 1].fir;
                 }
             }
         }
-        return dp[0][n-1].fir > dp[0][n-1].sec;
+        return dp[0][n - 1].fir > dp[0][n - 1].sec;
     }
 }

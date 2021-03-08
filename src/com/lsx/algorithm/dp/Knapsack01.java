@@ -23,8 +23,8 @@ public class Knapsack01 {
         // 遍历状态
         for (int i=1;i<=N;i++){
             for (int j=1;j<=W;j++){
-                // 状态转移方程，i物体放或不放，取最大
-                dp[i][j] = Math.max(dp[i-1][j],dp[i-1][j-wt[i]]+val[i]);
+                // 状态转移方程，i物体放或不放，取最大，dp的i从1开始，所以i-1表示第 i 个物品
+                dp[i][j] = Math.max(dp[i-1][j],dp[i-1][j-wt[i-1]]+val[i-1]);
             }
         }
         return dp[N][W];
